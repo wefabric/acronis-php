@@ -26,7 +26,7 @@ class Credentials
     /**
      * @var int
      */
-    protected int $expiresIn = 0;
+    protected int $expiresOn = 0;
 
     /**
      * @var Carbon|null
@@ -109,17 +109,17 @@ class Credentials
     /**
      * @return int
      */
-    public function getExpiresIn(): int
+    public function getExpiresOn(): int
     {
-        return $this->expiresIn;
+        return $this->expiresOn;
     }
 
     /**
-     * @param int $expiresIn
+     * @param int $expiresOn
      */
-    public function setExpiresIn(int $expiresIn): void
+    public function setExpiresOn(int $expiresOn): void
     {
-        $this->expiresIn = $expiresIn;
+        $this->expiresOn = $expiresOn;
     }
 
     /**
