@@ -42,7 +42,7 @@ final class BearerToken
             $credentials->setAccessToken($authorization['access_token']);
         }
         if(isset($authorization['expires_in'])) {
-            $credentials->setExpiresIn((int)$authorization['access_token']);
+            $credentials->setExpiresIn((int)$authorization['expires_in']);
         }
         if(isset($authorization['expires_on'])) {
             $credentials->setExpiresAt(new Carbon($authorization['expires_on']));

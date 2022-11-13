@@ -72,6 +72,8 @@ class UrlResolver
      */
     public function setBaseUrl(string $baseUrl): void
     {
+        // Remove double slashes
+        $baseUrl = preg_replace('{/$}', '', $baseUrl);
         $this->baseUrl = $baseUrl;
     }
 }

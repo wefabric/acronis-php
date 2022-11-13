@@ -28,7 +28,7 @@ $acronis = new AcronisClient(new UrlResolver($domainUrl), new Credentials($clien
 $alertsResponse = $acronis->getClient()->get('/api/alert_manager/v1/alerts');
 
 // Retrieve the alerts as decoded Json
-$alertsResponse->json()
+$alertsResponse->json();
 ```
 
 ## License
