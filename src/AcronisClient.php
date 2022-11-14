@@ -39,7 +39,7 @@ final class AcronisClient
      * @param UrlResolver $urlResolver
      * @param Credentials $credentials
      */
-    public function __construct(UrlResolver $urlResolver, Credentials $credentials,)
+    public function __construct(UrlResolver $urlResolver, Credentials $credentials)
     {
         $this->setUrlResolver($urlResolver);
         $this->setCredentials($credentials);
