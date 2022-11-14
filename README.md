@@ -31,5 +31,8 @@ $alertsResponse = $acronis->getClient()->get('/api/alert_manager/v1/alerts');
 $alertsResponse->json();
 ```
 
+## Examples
+See for more examples in the 'examples' directory.
+
 ## License
 Wefabric Acronis PHP is open-sourced software licensed under the MIT license.

@@ -79,40 +79,42 @@ final class AcronisClient
      */
     public function getHandlerStack(): HandlerStack
     {
-           if(!$this->handlerStack) {
-               $handlerStack = HandlerStack::create();
+        if(!$this->handlerStack) {
+            $handlerStack = HandlerStack::create();
 
-               $handlerStack->push(Middleware::mapRequest(function (RequestInterface $request){
+            $handlerStack->push(Middleware::mapRequest(function (RequestInterface $request){
 
-                   $bearer = new BearerMiddleware($this->getUrlResolver(), $this->getCredentials());
+                $bearer = new BearerMiddleware($this->getUrlResolver(), $this->getCredentials());
 
-                   $this->setCredentials($bearer->getCredentials());
+                $bearer->getAccessToken();
+                $bearerCredentials = $bearer->getCredentials();
+                $this->setCredentials($bearerCredentials);
 
-                   return $request->withHeader('Authorization', 'Bearer '.$bearer->getAccessToken());
-               }), 'add_bearer_token');
+                return $request->withHeader('Authorization', 'Bearer '.$this->getCredentials()->getAccessToken());
+            }), 'add_bearer_token');
 
-               $handlerStack->push(Middleware::mapRequest(function (RequestInterface $request){
+            $handlerStack->push(Middleware::mapRequest(function (RequestInterface $request){
 
-                   $uri = $request->getUri();
-                   if(!$uri->getHost()) {
-                       $request = $request->withUri(new Uri($this->getUrlResolver()->resolve($request->getUri()->getPath())));
-                   }
+                $uri = $request->getUri();
+                if(!$uri->getHost()) {
+                    $request = $request->withUri(new Uri($this->getUrlResolver()->resolve((string)$request->getUri())));
+                }
 
-                   return $request;
-               }), 'add_acronis_uri');
+                return $request;
+            }), 'add_acronis_uri');
 
-               $handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) {
-                   return new JsonAwareResponse(
-                       $response->getStatusCode(),
-                       $response->getHeaders(),
-                       $response->getBody(),
-                       $response->getProtocolVersion(),
-                       $response->getReasonPhrase()
-                   );
-               }), 'json_decode_middleware');
+            $handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) {
+                return new JsonAwareResponse(
+                    $response->getStatusCode(),
+                    $response->getHeaders(),
+                    $response->getBody(),
+                    $response->getProtocolVersion(),
+                    $response->getReasonPhrase()
+                );
+            }), 'json_decode_middleware');
 
-               $this->setHandlerStack($handlerStack);
-           }
+            $this->setHandlerStack($handlerStack);
+        }
 
         return $this->handlerStack;
     }
